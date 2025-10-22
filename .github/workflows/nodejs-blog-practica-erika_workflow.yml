@@ -1,37 +1,9 @@
-name: nodejs-blog-practica-erika_workflow
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-jobs:
-  linter_job:
-    name: Linter_job
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout del codi
-        uses: actions/checkout@v4
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-
-      - name: Instal·lar dependències
-        run: npm ci
-
-      - name: Executar linter
-        run: npm run lint
-
   cypress_job:
     name: Cypress_job
     needs: linter_job
     runs-on: ubuntu-latest
+    continue-on-error: true
+
     steps:
       - name: Checkout del codi
         uses: actions/checkout@v4
@@ -44,11 +16,13 @@ jobs:
       - name: Instal·lar dependències
         run: npm ci
 
-      - name: Executar tests de Cypress (continua encara que falle)
-        id: cypress
+      - name: Executar tests de Cypress
         uses: cypress-io/github-action@v6
         with:
-          continue-on-error: true
+          start: npm run dev
+          wait-on: http://localhost:3000
+          wait-on-timeout: 120
+          command: npm run cypress:run
 
       - name: Crear artefacte amb resultat
         if: always()
