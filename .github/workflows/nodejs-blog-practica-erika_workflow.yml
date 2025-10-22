@@ -24,3 +24,37 @@ jobs:
 
       - name: Executar linter
         run: npm run lint
+  cypress_job:
+    name: Cypress_job
+    needs: linter_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codi
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Instal·lar dependències
+        run: npm ci
+
+      - name: Executar tests de Cypress (continua encara que falle)
+        id: cypress
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm run start
+          wait-on: 'http://localhost:3000'
+        continue-on-error: true
+
+      - name: Escriure resultat en result.txt
+        run: echo "${{ steps.cypress.outcome }}" > result.txt
+
+      - name: Pujar artefacte "result.txt"
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-result
+          path: result.txt
+
