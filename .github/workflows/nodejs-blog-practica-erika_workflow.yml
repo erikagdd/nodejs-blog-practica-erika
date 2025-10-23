@@ -45,12 +45,14 @@ jobs:
         id: cypress
         uses: cypress-io/github-action@v6
         continue-on-error: true
+        with:
+          browser: chrome
 
-      - name: Guardar resultat de Cypress
+      - name: Crear artefacte de resultats
         if: always()
         run: echo "${{ steps.cypress.outcome }}" > result.txt
 
-      - name: Pujar artefacte de resultat
+      - name: Pujar artefacte de resultats
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -77,18 +79,18 @@ jobs:
           CYP_OUTCOME=$(cat ./artifact/result.txt)
           echo "cypress_outcome=$CYP_OUTCOME" >> $GITHUB_ENV
 
-      - name: Executar acció pròpia per afegir badge
+      - name: Afegir badge al README
         uses: ./.github/actions/add-badge
         with:
-          INPUT_CYPRESS_OUTCOME: ${{ env.cypress_outcome }}
+          cypress_outcome: ${{ env.cypress_outcome }}
 
-      - name: Publicar canvis del README.md
+      - name: Publicar canvis en el repositori
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "erikagdd"
+          git config --global user.email "erika@example.com"
           git add README.md
-          git commit -m "Actualitzat el badge segons els últims tests"
-          git push
+          git commit -m "Actualitza badge segons resultat dels tests de Cypress"
+          git push origin main
 
   deploy_job:
     name: Deploy_job
