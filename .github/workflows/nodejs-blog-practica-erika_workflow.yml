@@ -64,7 +64,7 @@ jobs:
         id: read_outcome
         run: |
           CYP_OUTCOME=$(cat ./artifact/result.txt)
-          echo "cypress_outcome=$CYP_OUTCOME" >> $GITHUB_ENV # Utilitzem GITHUB_ENV per evitar el warning
+          echo "cypress_outcome=$CYP_OUTCOME" >> $GITHUB_ENV # S'ha canviat a $GITHUB_ENV per evitar warnings
       - name: Afegir badge al README
         uses: ./.github/actions/add-badge
         with:
@@ -73,7 +73,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name "github-actions[bot]" # Canviat a l'usuari bot per defecte de GitHub Actions
+          git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md
           git commit -m "docs: Actualitza badge segons el resultat de Cypress" || echo "Sense canvis per commitejar"
@@ -93,7 +93,7 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./
           vercel-args: "--prod"
-# Utilitzarem una acció del Marketplace per a l'enviament real del correu
+# Utilitzem una acció del Marketplace
   notification_job:
     name: Notification_job
     needs: [linter_job, cypress_job, add_badge_job, deploy_job]
@@ -103,15 +103,17 @@ jobs:
       - name: Executar acció d'enviament de notificació (SMTP)
         uses: dawidd6/action-send-mail@v3
         with:
-          # Servidor de Correu (Exemple per Gmail. Canvia-ho si utilitzes un altre)
+          # Servidor de Correu (Exemple: Gmail)
           server_address: smtp.gmail.com
           server_port: 587
           secure: true
-          # Credencials (Secrets creats al Pas 1)
-          username: ${{ secrets.SMTP_USERNAME }}
+          # Credencials: S'utilitza USER_EMAIL com a username SMTP
+          username: ${{ secrets.USER_EMAIL }} 
           password: ${{ secrets.SMTP_PASSWORD }}
-          # Destinatari (El teu Secret USER_EMAIL)
-          to: ${{ secrets.USER_EMAIL }}
+          # REMITENT REQUERIT PER L'ACCIÓ
+          from: ${{ secrets.USER_EMAIL }} 
+          # Destinatari
+          to: ${{ secrets.USER_EMAIL }} 
           # Assumpte i Cos del Correu
           subject: Resultat del workflow nodejs-blog-practica-erika_workflow
           body: |
