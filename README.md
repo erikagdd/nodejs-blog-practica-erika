@@ -16,3 +16,5 @@ Example of nextjs project using Cypress.io
 ![Cypress](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
 
 ![Cypress](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
+
+![Cypress](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
