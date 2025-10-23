@@ -112,3 +112,24 @@ jobs:
           working-directory: ./
           vercel-args: "--prod"
 # Reexecuta workflow per a comprovar
+
+  notification_job:
+    name: Notification_job
+    needs: [linter_job, cypress_job, add_badge_job, deploy_job]
+    runs-on: ubuntu-latest
+    if: always()  # S'executa encara que falle algun job
+    steps:
+      - name: Checkout del codi
+        uses: actions/checkout@v4
+
+      - name: Executar acció d'enviament de notificació
+        uses: ./.github/actions/send-notification
+        with:
+          user_email: ${{ secrets.USER_EMAIL }}
+          subject: "Resultat del workflow nodejs-blog-practica-erika_workflow"
+          body: |
+            S'ha realitzat un push en la branca main que ha provocat l'execució del workflow nodejs-blog-practica-erika_workflow amb els següents resultats:
+            - linter_job: ${{ needs.linter_job.result }}
+            - cypress_job: ${{ needs.cypress_job.result }}
+            - add_badge_job: ${{ needs.add_badge_job.result }}
+            - deploy_job: ${{ needs.deploy_job.result }}

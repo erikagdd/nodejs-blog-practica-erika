@@ -1,0 +1,15 @@
+name: "Send Notification"
+description: "Envia un correu amb els resultats del workflow"
+inputs:
+  user_email:
+    description: "Correu del destinatari"
+    required: true
+  subject:
+    description: "Assumpte del correu"
+    required: true
+  body:
+    description: "Cos del missatge"
+    required: true
+runs:
+  using: "node16"
+  main: "index.js"
