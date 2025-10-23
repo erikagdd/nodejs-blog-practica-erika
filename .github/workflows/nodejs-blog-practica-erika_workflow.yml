@@ -64,7 +64,7 @@ jobs:
         id: read_outcome
         run: |
           CYP_OUTCOME=$(cat ./artifact/result.txt)
-          echo "cypress_outcome=$CYP_OUTCOME" >> $GITHUB_ENV # S'ha canviat a $GITHUB_ENV per evitar warnings
+          echo "cypress_outcome=$CYP_OUTCOME" >> $GITHUB_ENV
       - name: Afegir badge al README
         uses: ./.github/actions/add-badge
         with:
@@ -105,15 +105,15 @@ jobs:
         with:
           # Servidor de Correu (Exemple: Gmail)
           server_address: smtp.gmail.com
-          server_port: 587
+          server_port: 465 # CANVI SOLUCIÓ SSL
           secure: true
-          # Credencials: S'utilitza USER_EMAIL com a username SMTP
-          username: ${{ secrets.USER_EMAIL }} 
+          # Credencials
+          username: ${{ secrets.USER_EMAIL }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          # REMITENT REQUERIT PER L'ACCIÓ
-          from: ${{ secrets.USER_EMAIL }} 
+          # REMITENT
+          from: ${{ secrets.USER_EMAIL }}
           # Destinatari
-          to: ${{ secrets.USER_EMAIL }} 
+          to: ${{ secrets.USER_EMAIL }}
           # Assumpte i Cos del Correu
           subject: Resultat del workflow nodejs-blog-practica-erika_workflow
           body: |
