@@ -12,3 +12,5 @@ Example of nextjs project using Cypress.io
 ![Tests](https://img.shields.io/badge/test-failure-red)
 
 ![Cypress](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
+
+![Cypress](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
