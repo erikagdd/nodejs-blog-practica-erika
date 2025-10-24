@@ -117,3 +117,5 @@ Link al Projecte Vercel: [nodejs-blog-practica-erika-4krpwtejo-erikas-projects-9
 ![Cypress](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
 
 ![Cypress](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
+
+![Cypress](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
